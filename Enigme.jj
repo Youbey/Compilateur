@@ -305,9 +305,8 @@ boolean factorBool() : { boolean result; }
 
 boolean valueBool() : { boolean result; }
 {
-    <TRUE> { result = true; }
-    | <FALSE> { result = false; }
-    { return result; }
+    <TRUE> { return true; }
+    | <FALSE> { return false; }
 }
 
 boolean elementBool() : { boolean result; }
