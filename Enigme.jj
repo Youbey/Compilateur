@@ -1,0 +1,334 @@
+PARSER_BEGIN(Enigme)
+
+import java.util.HashMap;
+
+public class Enigme {
+    private static HashMap<String, Integer> symbolTable = new HashMap<>();
+    private static HashMap<String, String> symbolTableString = new HashMap<>();
+
+    public static void main(String[] args) throws ParseException {
+        System.out.println("Entrez un programme 'Énigme' à parser :");
+        Enigme parser = new Enigme(System.in);
+        parser.programme();
+        System.out.println("Programme analysé avec succès !");
+    }
+}
+
+PARSER_END(Enigme)
+
+SKIP : {
+    " " | "\t" | "\n" | "\r"  // Espaces blancs
+}
+
+TOKEN : {
+    < DEBUT : "début" > |
+    < FIN : "fin" > |
+    < AFFICHERINT : "afficherInt" > |
+    < AFFICHERSTRING : "afficherString" > |
+    < LIREINT : "lireInt" > |
+    < LIRESTRING : "lireString" > |
+    < ENTIER : "entier" > |
+    < CHAINE : "chaine" > |
+    < SI : "si" > |
+    < ALORS : "alors" > |
+    < SINON : "sinon" > |
+    < FINSI : "finSi" > |
+    < TANTQUE : "tantQue" > |
+    < FAIRE : "faire" > |
+    < FINTANTQUE : "finTantQue" > |
+    < POUR : "pour" > |
+    < DE : "de" > |
+    < A : "à" > |
+    < FINPOUR : "finPour" > |
+    < IDENTIFIANT : <LETTER> (<LETTER> | <DIGIT>)* > |
+    < NUMBER : (<DIGIT>)+ > |
+    < STRING : "\"" (~["\\", "\""])* "\"" > |
+    < COMMENT : "//" (~["\n", "\r"])* > |
+    < TRUE : "true" > |
+    < FALSE : "false" > |
+    < GT : ">" > |
+    < LT : "<" > |
+    < GE : ">=" > |
+    < LE : "<=" > |
+    < EQ : "==" > |
+    < NE : "!=" > |
+    < SEMICOLON : ";" >
+}
+
+MORE : {
+    < LETTER : ["a"-"z", "A"-"Z", "_"] > |
+    < DIGIT : ["0"-"9"] >
+}
+
+void programme() : {} 
+{
+    {
+        System.out.println("-> Entrée dans programme");
+    }
+    <DEBUT> instructions() <FIN>
+    {
+        System.out.println("<- Sortie de programme");
+    }
+}
+
+void instructions() : {} 
+{
+    {
+        System.out.println("-> Entrée dans instructions");
+    }
+    (instruction() ";")*
+    {
+        System.out.println("<- Sortie de instructions");
+    }
+}
+
+void instruction() : {} 
+{
+    afficherInt()
+    | afficherString()
+    | lireInt()
+    | lireString()
+    | declarationVariable()
+    | declarationVariableString() // Déclaration de chaînes
+    | LOOKAHEAD(3) affectation()
+    | LOOKAHEAD(3) affectationString()         // Affectation de chaînes
+    | condition()
+    | boucleTantQue()
+    | bouclePour()
+}
+
+void declarationVariable() : {}
+{
+    <ENTIER> <IDENTIFIANT>
+    {
+        symbolTable.put(token.image, 0);
+    }
+}
+
+void declarationVariableString() : {}
+{
+    "chaine" <IDENTIFIANT>
+    {
+        symbolTableString.put(token.image, "");
+    }
+}
+
+void affectation() : { String varName; int value; } 
+{
+    <IDENTIFIANT> { varName = token.image; } "<-" value = expression()
+    {
+        symbolTable.put(varName, value);
+    }
+}
+
+void affectationString() : { String varName; } 
+{
+    <IDENTIFIANT> { varName = token.image; } "<-" <STRING>
+    {
+        symbolTableString.put(token.image, token.image);
+    }
+}
+
+void afficherInt() : { int value; } 
+{
+    {
+        System.out.println("-> Entrée dans afficherInt");
+    }
+    <AFFICHERINT> "(" value = expression() ")" 
+    {
+        System.out.println("Afficher (Int) : " + value);
+    }
+    {
+        System.out.println("<- Sortie de afficherInt");
+    }
+}
+
+void afficherString() : { String value; } 
+{
+    {
+        System.out.println("-> Entrée dans afficherString");
+    }
+    <AFFICHERSTRING> "(" 
+        ( 
+            <STRING> { value = token.image; } 
+            | <IDENTIFIANT> { 
+                if (symbolTableString.containsKey(token.image)) {
+                    value = symbolTableString.get(token.image);
+                } else {
+                    throw new Error("Variable non déclarée : " + token.image);
+                }
+            } 
+        ) 
+    ")" 
+    {
+        System.out.println("Afficher (String) : " + value);
+    }
+    {
+        System.out.println("<- Sortie de afficherString");
+    }
+}
+
+void lireInt() : {}
+{
+    {
+        System.out.println("-> Entrée dans lireInt");
+    }
+    <LIREINT> "(" <IDENTIFIANT> ")"
+    {
+        if (!symbolTable.containsKey(token.image)) {
+            throw new Error("Variable non déclarée : " + token.image);
+        }
+        symbolTable.put(token.image, 42); // Exemple de valeur lue
+    }
+    {
+        System.out.println("<- Sortie de lireInt");
+    }
+}
+
+void lireString() : {}
+{
+    {
+        System.out.println("-> Entrée dans lireString");
+    }
+    <LIRESTRING> "(" <IDENTIFIANT> ")"
+    {
+        if (!symbolTableString.containsKey(token.image)) {
+            throw new Error("Variable non déclarée : " + token.image);
+        }
+        symbolTableString.put(token.image, "exemple"); // Exemple de valeur lue
+    }
+    {
+        System.out.println("<- Sortie de lireString");
+    }
+}
+
+void condition() : {} 
+{
+    {
+        System.out.println("-> Entrée dans condition");
+    }
+    <SI> expBool() <ALORS> instructions() [<SINON> instructions()] <FINSI>
+    {
+        System.out.println("<- Sortie de condition");
+    }
+}   
+
+void boucleTantQue() : {} 
+{
+    {
+        System.out.println("-> Entrée dans boucleTantQue");
+    }
+    <TANTQUE> expBool() <FAIRE> instructions() <FINTANTQUE>
+    {
+        System.out.println("<- Sortie de boucleTantQue");
+    }
+}
+
+void bouclePour() : {} 
+{
+    {
+        System.out.println("-> Entrée dans bouclePour");
+    }
+    <POUR> <IDENTIFIANT> <DE> expArith() <A> expArith() <FAIRE> instructions() <FINPOUR>
+    {
+        System.out.println("<- Sortie de bouclePour");
+    }
+}
+
+int expression() : { int result; }
+{
+    result = expArith() { return result; }
+}
+
+int expArith() : { int result; int term1, term2; }
+{
+    term1 = term()
+    (
+        "+" term2 = term() { result = term1 + term2; term1 = result; }
+        | "-" term2 = term() { result = term1 - term2; term1 = result; }
+    )*
+    { return term1; }
+}
+
+int term() : { int result; int factor1, factor2; }
+{
+    factor1 = factor()
+    (
+        "*" factor2 = factor() { result = factor1 * factor2; factor1 = result; }
+        | "/" factor2 = factor() { 
+            if (factor2 == 0) throw new Error("Division par zéro !");
+            result = factor1 / factor2; 
+            factor1 = result;
+        }
+    )*
+    { return factor1; }
+}
+
+int factor() : { int result; }
+{
+    <NUMBER> { result = Integer.parseInt(token.image); return result; }
+    | <IDENTIFIANT> { 
+        if (symbolTable.containsKey(token.image)) {
+            result = symbolTable.get(token.image);
+        } else {
+            throw new Error("Variable non déclarée : " + token.image);
+        }
+        return result;
+    }
+    | "(" result = expArith() ")" { return result; }
+}
+
+boolean expBool() : { boolean result; boolean right; }
+{
+    result = termBool()
+    (
+        "||" right = termBool() { result = result || right; }
+    )*
+    { return result; }
+}
+
+boolean termBool() : { boolean result; boolean right; }
+{
+    result = factorBool()
+    (
+        "&&" right = factorBool() { result = result && right; }
+    )*
+    { return result; }
+}
+
+boolean factorBool() : { boolean result; }
+{
+    "!" result = factorBool() { result = !result; }
+    | result = elementBool() { result = elementBool(); }
+    { return result; }
+}
+
+boolean valueBool() : { boolean result; } 
+{ 
+    <TRUE> { result = true; } 
+    | <FALSE> { result = false; } 
+    { return result; } 
+}
+
+boolean elementBool() : { boolean result; }
+{
+    LOOKAHEAD(3) "(" result = expBool() ")" { return result; }
+    | LOOKAHEAD(2) comparison() { result = comparison(); }
+    | LOOKAHEAD(2) <TRUE> { return true; }
+    | LOOKAHEAD(2) <FALSE> { return false; }
+}
+
+
+boolean comparison() : { boolean result; int left, right; }
+{
+    left = expression()
+    (
+        <GT> right = expression() { result = left > right; }
+        | <LT> right = expression() { result = left < right; }
+        | <GE> right = expression() { result = left >= right; }
+        | <LE> right = expression() { result = left <= right; }
+        | <EQ> right = expression() { result = left == right; }
+        | <NE> right = expression() { result = left != right; }
+    )
+    { return result; }
+}
