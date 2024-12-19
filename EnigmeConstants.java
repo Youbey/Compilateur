@@ -47,17 +47,17 @@ public interface EnigmeConstants {
   /** RegularExpression Id. */
   int FINPOUR = 23;
   /** RegularExpression Id. */
-  int IDENTIFIANT = 24;
+  int TRUE = 24;
   /** RegularExpression Id. */
-  int NUMBER = 25;
+  int FALSE = 25;
   /** RegularExpression Id. */
-  int STRING = 26;
+  int IDENTIFIANT = 26;
   /** RegularExpression Id. */
-  int COMMENT = 27;
+  int NUMBER = 27;
   /** RegularExpression Id. */
-  int TRUE = 28;
+  int STRING = 28;
   /** RegularExpression Id. */
-  int FALSE = 29;
+  int COMMENT = 29;
   /** RegularExpression Id. */
   int GT = 30;
   /** RegularExpression Id. */
@@ -106,12 +106,12 @@ public interface EnigmeConstants {
     "\"de\"",
     "\"\\u00e0\"",
     "\"finPour\"",
+    "\"true\"",
+    "\"false\"",
     "<IDENTIFIANT>",
     "<NUMBER>",
     "<STRING>",
     "<COMMENT>",
-    "\"true\"",
-    "\"false\"",
     "\">\"",
     "\"<\"",
     "\">=\"",

@@ -40,12 +40,12 @@ TOKEN : {
     < DE : "de" > |
     < A : "à" > |
     < FINPOUR : "finPour" > |
+    < TRUE : "true" > |
+    < FALSE : "false" > |
     < IDENTIFIANT : <LETTER> (<LETTER> | <DIGIT>)* > |
     < NUMBER : (<DIGIT>)+ > |
     < STRING : "\"" (~["\\", "\""])* "\"" > |
     < COMMENT : "//" (~["\n", "\r"])* > |
-    < TRUE : "true" > |
-    < FALSE : "false" > |
     < GT : ">" > |
     < LT : "<" > |
     < GE : ">=" > |
