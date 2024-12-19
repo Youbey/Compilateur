@@ -300,7 +300,7 @@ boolean termBool() : { boolean result; boolean right; }
 boolean factorBool() : { boolean result; }
 {
     "!" result = factorBool() { result = !result; }
-    | result = elementBool();
+    | { result = elementBool(); }
     { return result; }
 }
 

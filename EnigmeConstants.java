@@ -87,7 +87,7 @@ public interface EnigmeConstants {
     "\"\\t\"",
     "\"\\n\"",
     "\"\\r\"",
-    "\"debut\"",
+    "\"dEbut\"",
     "\"fin\"",
     "\"afficherInt\"",
     "\"afficherString\"",
