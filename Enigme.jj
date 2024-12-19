@@ -7,10 +7,10 @@ public class Enigme {
     private static HashMap<String, String> symbolTableString = new HashMap<>();
 
     public static void main(String[] args) throws ParseException {
-        System.out.println("Entrez un programme 'Énigme' à parser :");
+        System.out.println("Entrez un programme 'Enigme' a parser :");
         Enigme parser = new Enigme(System.in);
         parser.programme();
-        System.out.println("Programme analysé avec succès !");
+        System.out.println("Programme analyse avec succes !");
     }
 }
 
@@ -21,7 +21,7 @@ SKIP : {
 }
 
 TOKEN : {
-    < DEBUT : "début" > |
+    < DEBUT : "dEbut" > |
     < FIN : "fin" > |
     < AFFICHERINT : "afficherInt" > |
     < AFFICHERSTRING : "afficherString" > |
@@ -38,7 +38,7 @@ TOKEN : {
     < FINTANTQUE : "finTantQue" > |
     < POUR : "pour" > |
     < DE : "de" > |
-    < A : "à" > |
+    < A : "a" > |
     < FINPOUR : "finPour" > |
     < TRUE : "true" > |
     < FALSE : "false" > |
@@ -63,7 +63,7 @@ MORE : {
 void programme() : {} 
 {
     {
-        System.out.println("-> Entrée dans programme");
+        System.out.println("-> Entree dans programme");
     }
     <DEBUT> instructions() <FIN>
     {
@@ -74,7 +74,7 @@ void programme() : {}
 void instructions() : {} 
 {
     {
-        System.out.println("-> Entrée dans instructions");
+        System.out.println("-> Entree dans instructions");
     }
     (instruction() ";")*
     {
@@ -89,9 +89,9 @@ void instruction() : {}
     | lireInt()
     | lireString()
     | declarationVariable()
-    | declarationVariableString() // Déclaration de chaînes
+    | declarationVariableString() // DEclaration de chaines
     | LOOKAHEAD(3) affectation()
-    | LOOKAHEAD(3) affectationString()         // Affectation de chaînes
+    | LOOKAHEAD(3) affectationString()         // Affectation de chaines
     | condition()
     | boucleTantQue()
     | bouclePour()
@@ -132,9 +132,9 @@ void affectationString() : { String varName; }
 void afficherInt() : { int value; } 
 {
     {
-        System.out.println("-> Entrée dans afficherInt");
+        System.out.println("-> Entree dans afficherInt");
     }
-    <AFFICHERINT> "(" value = expression() ")" 
+    <AFFICHERINT> "(" value = expression() ")"
     {
         System.out.println("Afficher (Int) : " + value);
     }
@@ -146,16 +146,16 @@ void afficherInt() : { int value; }
 void afficherString() : { String value; } 
 {
     {
-        System.out.println("-> Entrée dans afficherString");
+        System.out.println("-> Entree dans afficherString");
     }
-    <AFFICHERSTRING> "(" 
+    <AFFICHERSTRING> "("
         ( 
             <STRING> { value = token.image; } 
-            | <IDENTIFIANT> { 
+            | <IDENTIFIANT> {
                 if (symbolTableString.containsKey(token.image)) {
                     value = symbolTableString.get(token.image);
                 } else {
-                    throw new Error("Variable non déclarée : " + token.image);
+                    throw new Error("Variable non dEclarEe : " + token.image);
                 }
             } 
         ) 
@@ -171,12 +171,12 @@ void afficherString() : { String value; }
 void lireInt() : {}
 {
     {
-        System.out.println("-> Entrée dans lireInt");
+        System.out.println("-> Entree dans lireInt");
     }
     <LIREINT> "(" <IDENTIFIANT> ")"
     {
         if (!symbolTable.containsKey(token.image)) {
-            throw new Error("Variable non déclarée : " + token.image);
+            throw new Error("Variable non dEclarEe : " + token.image);
         }
         symbolTable.put(token.image, 42); // Exemple de valeur lue
     }
@@ -188,12 +188,12 @@ void lireInt() : {}
 void lireString() : {}
 {
     {
-        System.out.println("-> Entrée dans lireString");
+        System.out.println("-> Entree dans lireString");
     }
     <LIRESTRING> "(" <IDENTIFIANT> ")"
     {
         if (!symbolTableString.containsKey(token.image)) {
-            throw new Error("Variable non déclarée : " + token.image);
+            throw new Error("Variable non dEclarEe : " + token.image);
         }
         symbolTableString.put(token.image, "exemple"); // Exemple de valeur lue
     }
@@ -205,7 +205,7 @@ void lireString() : {}
 void condition() : {} 
 {
     {
-        System.out.println("-> Entrée dans condition");
+        System.out.println("-> Entree dans condition");
     }
     <SI> expBool() <ALORS> instructions() [<SINON> instructions()] <FINSI>
     {
@@ -216,7 +216,7 @@ void condition() : {}
 void boucleTantQue() : {} 
 {
     {
-        System.out.println("-> Entrée dans boucleTantQue");
+        System.out.println("-> Entree dans boucleTantQue");
     }
     <TANTQUE> expBool() <FAIRE> instructions() <FINTANTQUE>
     {
@@ -227,7 +227,7 @@ void boucleTantQue() : {}
 void bouclePour() : {} 
 {
     {
-        System.out.println("-> Entrée dans bouclePour");
+        System.out.println("-> Entree dans bouclePour");
     }
     <POUR> <IDENTIFIANT> <DE> expArith() <A> expArith() <FAIRE> instructions() <FINPOUR>
     {
@@ -256,7 +256,7 @@ int term() : { int result; int factor1, factor2; }
     (
         "*" factor2 = factor() { result = factor1 * factor2; factor1 = result; }
         | "/" factor2 = factor() { 
-            if (factor2 == 0) throw new Error("Division par zéro !");
+            if (factor2 == 0) throw new Error("Division par zEro !");
             result = factor1 / factor2; 
             factor1 = result;
         }
@@ -267,11 +267,11 @@ int term() : { int result; int factor1, factor2; }
 int factor() : { int result; }
 {
     <NUMBER> { result = Integer.parseInt(token.image); return result; }
-    | <IDENTIFIANT> { 
+    | <IDENTIFIANT> {
         if (symbolTable.containsKey(token.image)) {
             result = symbolTable.get(token.image);
         } else {
-            throw new Error("Variable non déclarée : " + token.image);
+            throw new Error("Variable non dEclarEe : " + token.image);
         }
         return result;
     }
@@ -305,8 +305,8 @@ boolean factorBool() : { boolean result; }
 
 boolean valueBool() : { boolean result; } 
 { 
-    <TRUE> { result = true; } 
-    | <FALSE> { result = false; } 
+    <TRUE> { result = true; }
+    | <FALSE> { result = false; }
     { return result; } 
 }
 
