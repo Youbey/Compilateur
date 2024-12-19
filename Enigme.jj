@@ -329,6 +329,7 @@ boolean comparison() : { boolean result; int left, right; }
         | <LE> right = expression() { result = left <= right; }
         | <EQ> right = expression() { result = left == right; }
         | <NE> right = expression() { result = left != right; }
+        | { throw new Error("Unsupported operator in comparison."); }
     )
     { return result; }
 }
