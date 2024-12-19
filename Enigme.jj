@@ -60,7 +60,7 @@ MORE : {
     < DIGIT : ["0"-"9"] >
 }
 
-void programme() : {} 
+void programme() : {}
 {
     {
         System.out.println("-> Entree dans programme");
@@ -71,7 +71,7 @@ void programme() : {}
     }
 }
 
-void instructions() : {} 
+void instructions() : {}
 {
     {
         System.out.println("-> Entree dans instructions");
@@ -82,7 +82,7 @@ void instructions() : {}
     }
 }
 
-void instruction() : {} 
+void instruction() : {}
 {
     afficherInt()
     | afficherString()
@@ -113,7 +113,7 @@ void declarationVariableString() : {}
     }
 }
 
-void affectation() : { String varName; int value; } 
+void affectation() : { String varName; int value; }
 {
     <IDENTIFIANT> { varName = token.image; } "<-" value = expression()
     {
@@ -121,7 +121,7 @@ void affectation() : { String varName; int value; }
     }
 }
 
-void affectationString() : { String varName; } 
+void affectationString() : { String varName; }
 {
     <IDENTIFIANT> { varName = token.image; } "<-" <STRING>
     {
@@ -129,7 +129,7 @@ void affectationString() : { String varName; }
     }
 }
 
-void afficherInt() : { int value; } 
+void afficherInt() : { int value; }
 {
     {
         System.out.println("-> Entree dans afficherInt");
@@ -143,23 +143,23 @@ void afficherInt() : { int value; }
     }
 }
 
-void afficherString() : { String value; } 
+void afficherString() : { String value; }
 {
     {
         System.out.println("-> Entree dans afficherString");
     }
     <AFFICHERSTRING> "("
-        ( 
-            <STRING> { value = token.image; } 
+        (
+            <STRING> { value = token.image; }
             | <IDENTIFIANT> {
                 if (symbolTableString.containsKey(token.image)) {
                     value = symbolTableString.get(token.image);
                 } else {
                     throw new Error("Variable non dEclarEe : " + token.image);
                 }
-            } 
-        ) 
-    ")" 
+            }
+        )
+    ")"
     {
         System.out.println("Afficher (String) : " + value);
     }
@@ -202,7 +202,7 @@ void lireString() : {}
     }
 }
 
-void condition() : {} 
+void condition() : {}
 {
     {
         System.out.println("-> Entree dans condition");
@@ -211,9 +211,9 @@ void condition() : {}
     {
         System.out.println("<- Sortie de condition");
     }
-}   
+}
 
-void boucleTantQue() : {} 
+void boucleTantQue() : {}
 {
     {
         System.out.println("-> Entree dans boucleTantQue");
@@ -224,7 +224,7 @@ void boucleTantQue() : {}
     }
 }
 
-void bouclePour() : {} 
+void bouclePour() : {}
 {
     {
         System.out.println("-> Entree dans bouclePour");
@@ -255,9 +255,9 @@ int term() : { int result; int factor1, factor2; }
     factor1 = factor()
     (
         "*" factor2 = factor() { result = factor1 * factor2; factor1 = result; }
-        | "/" factor2 = factor() { 
+        | "/" factor2 = factor() {
             if (factor2 == 0) throw new Error("Division par zEro !");
-            result = factor1 / factor2; 
+            result = factor1 / factor2;
             factor1 = result;
         }
     )*
@@ -299,15 +299,15 @@ boolean termBool() : { boolean result; boolean right; }
 boolean factorBool() : { boolean result; }
 {
     "!" result = factorBool() { result = !result; }
-    | result = elementBool() { result = elementBool(); }
+    | result = elementBool();
     { return result; }
 }
 
-boolean valueBool() : { boolean result; } 
-{ 
+boolean valueBool() : { boolean result; }
+{
     <TRUE> { result = true; }
     | <FALSE> { result = false; }
-    { return result; } 
+    { return result; }
 }
 
 boolean elementBool() : { boolean result; }
