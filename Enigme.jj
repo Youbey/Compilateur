@@ -21,7 +21,7 @@ SKIP : {
 }
 
 TOKEN : {
-    < DEBUT : "dEbut" > |
+    < DEBUT : "debut" > |
     < FIN : "fin" > |
     < AFFICHERINT : "afficherInt" > |
     < AFFICHERSTRING : "afficherString" > |
