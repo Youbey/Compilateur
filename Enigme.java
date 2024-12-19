@@ -7,14 +7,14 @@ public class Enigme implements EnigmeConstants {
     private static HashMap<String, String> symbolTableString = new HashMap<>();
 
     public static void main(String[] args) throws ParseException {
-        System.out.println("Entrez un programme '\u00c9nigme' \u00e0 parser :");
+        System.out.println("Entrez un programme 'Enigme' a parser :");
         Enigme parser = new Enigme(System.in);
         parser.programme();
-        System.out.println("Programme analys\u00e9 avec succ\u00e8s !");
+        System.out.println("Programme analyse avec succes !");
     }
 
   static final public void programme() throws ParseException {
-System.out.println("-> Entr\u00e9e dans programme");
+System.out.println("-> Entree dans programme");
     jj_consume_token(DEBUT);
     instructions();
     jj_consume_token(FIN);
@@ -22,7 +22,7 @@ System.out.println("<- Sortie de programme");
 }
 
   static final public void instructions() throws ParseException {
-System.out.println("-> Entr\u00e9e dans instructions");
+System.out.println("-> Entree dans instructions");
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -133,7 +133,7 @@ symbolTableString.put(token.image, token.image);
 }
 
   static final public void afficherInt() throws ParseException {int value;
-System.out.println("-> Entr\u00e9e dans afficherInt");
+System.out.println("-> Entree dans afficherInt");
     jj_consume_token(AFFICHERINT);
     jj_consume_token(40);
     value = expression();
@@ -143,7 +143,7 @@ System.out.println("<- Sortie de afficherInt");
 }
 
   static final public void afficherString() throws ParseException {String value;
-System.out.println("-> Entr\u00e9e dans afficherString");
+System.out.println("-> Entree dans afficherString");
     jj_consume_token(AFFICHERSTRING);
     jj_consume_token(40);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -157,7 +157,7 @@ value = token.image;
 if (symbolTableString.containsKey(token.image)) {
                     value = symbolTableString.get(token.image);
                 } else {
-                    {if (true) throw new Error("Variable non d\u00e9clar\u00e9e : " + token.image);}
+                    {if (true) throw new Error("Variable non declaree : " + token.image);}
                 }
       break;
       }
@@ -172,13 +172,13 @@ System.out.println("<- Sortie de afficherString");
 }
 
   static final public void lireInt() throws ParseException {
-System.out.println("-> Entr\u00e9e dans lireInt");
+System.out.println("-> Entree dans lireInt");
     jj_consume_token(LIREINT);
     jj_consume_token(40);
     jj_consume_token(IDENTIFIANT);
     jj_consume_token(41);
 if (!symbolTable.containsKey(token.image)) {
-            {if (true) throw new Error("Variable non d\u00e9clar\u00e9e : " + token.image);}
+            {if (true) throw new Error("Variable non declaree : " + token.image);}
         }
         symbolTable.put(token.image, 42); // Exemple de valeur lue
 
@@ -186,13 +186,13 @@ System.out.println("<- Sortie de lireInt");
 }
 
   static final public void lireString() throws ParseException {
-System.out.println("-> Entr\u00e9e dans lireString");
+System.out.println("-> Entree dans lireString");
     jj_consume_token(LIRESTRING);
     jj_consume_token(40);
     jj_consume_token(IDENTIFIANT);
     jj_consume_token(41);
 if (!symbolTableString.containsKey(token.image)) {
-            {if (true) throw new Error("Variable non d\u00e9clar\u00e9e : " + token.image);}
+            {if (true) throw new Error("Variable non declaree : " + token.image);}
         }
         symbolTableString.put(token.image, "exemple"); // Exemple de valeur lue
 
@@ -200,7 +200,7 @@ System.out.println("<- Sortie de lireString");
 }
 
   static final public void condition() throws ParseException {
-System.out.println("-> Entr\u00e9e dans condition");
+System.out.println("-> Entree dans condition");
     jj_consume_token(SI);
     expBool();
     jj_consume_token(ALORS);
@@ -220,7 +220,7 @@ System.out.println("<- Sortie de condition");
 }
 
   static final public void boucleTantQue() throws ParseException {
-System.out.println("-> Entr\u00e9e dans boucleTantQue");
+System.out.println("-> Entree dans boucleTantQue");
     jj_consume_token(TANTQUE);
     expBool();
     jj_consume_token(FAIRE);
@@ -230,7 +230,7 @@ System.out.println("<- Sortie de boucleTantQue");
 }
 
   static final public void bouclePour() throws ParseException {
-System.out.println("-> Entr\u00e9e dans bouclePour");
+System.out.println("-> Entree dans bouclePour");
     jj_consume_token(POUR);
     jj_consume_token(IDENTIFIANT);
     jj_consume_token(DE);
@@ -310,7 +310,7 @@ result = factor1 * factor2; factor1 = result;
       case 45:{
         jj_consume_token(45);
         factor2 = factor();
-if (factor2 == 0) {if (true) throw new Error("Division par z\u00e9ro !");}
+if (factor2 == 0) {if (true) throw new Error("Division par zero !");}
             result = factor1 / factor2;
             factor1 = result;
         break;
@@ -337,7 +337,7 @@ result = Integer.parseInt(token.image); {if ("" != null) return result;}
 if (symbolTable.containsKey(token.image)) {
             result = symbolTable.get(token.image);
         } else {
-            {if (true) throw new Error("Variable non d\u00e9clar\u00e9e : " + token.image);}
+            {if (true) throw new Error("Variable non declaree : " + token.image);}
         }
         {if ("" != null) return result;}
       break;
