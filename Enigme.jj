@@ -125,7 +125,8 @@ void affectationString() : { String varName; }
 {
     <IDENTIFIANT> { varName = token.image; } "<-" <STRING>
     {
-        symbolTableString.put(token.image, token.image);
+        String value = token.image;
+        symbolTableString.put(varName, value);
     }
 }
 
