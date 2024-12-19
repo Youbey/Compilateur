@@ -314,8 +314,8 @@ boolean elementBool() : { boolean result; }
 {
     LOOKAHEAD(3) "(" result = expBool() ")" { return result; }
     | LOOKAHEAD(2) comparison() { result = comparison(); }
-    | LOOKAHEAD(2) <TRUE> { return true; }
-    | LOOKAHEAD(2) <FALSE> { return false; }
+    | LOOKAHEAD(1) <TRUE> { return true; }
+    | LOOKAHEAD(1) <FALSE> { return false; }
 }
 
 
