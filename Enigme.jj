@@ -257,7 +257,7 @@ int term() : { int result; int factor1, factor2; }
     (
         "*" factor2 = factor() { result = factor1 * factor2; factor1 = result; }
         | "/" factor2 = factor() {
-            if (factor2 == 0) throw new Error("Division par zEro !");
+            if (factor2 == 0) throw new ArithmeticException("Division par zero !");
             result = factor1 / factor2;
             factor1 = result;
         }
