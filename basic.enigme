@@ -7,10 +7,10 @@ public class Enigme {
     private static HashMap<String, String> symbolTableString = new HashMap<>();
 
     public static void main(String[] args) throws ParseException {
-        System.out.println("Entrez un programme 'Énigme' à parser :");
+        System.out.println("Entrez un programme 'Enigme' a parser :");
         Enigme parser = new Enigme(System.in);
         parser.programme();
-        System.out.println("Programme analysé avec succès !");
+        System.out.println("Programme analysE avec succes !");
     }
 }
 
@@ -21,7 +21,7 @@ SKIP : {
 }
 
 TOKEN : {
-    < DEBUT : "début" > |
+    < DEBUT : "dEbut" > |
     < FIN : "fin" > |
     < AFFICHERINT : "afficherInt" > |
     < AFFICHERSTRING : "afficherString" > |
@@ -37,13 +37,13 @@ TOKEN : {
     < FINTANTQUE : "finTantQue" > |
     < POUR : "pour" > |
     < DE : "de" > |
-    < A : "à" > |
+    < A : "a" > |
     < FINPOUR : "finPour" > |
     < IDENTIFIANT : <LETTER> (<LETTER> | <DIGIT>)* > |
     < NUMBER : (<DIGIT>)+ > |
     < STRING : "\"" (~["\\", "\""])* "\"" > |
     < COMMENT : "//" (~["\n", "\r"])* > |
-    < SEMICOLON : ";" > // Délimiteur explicite pour chaque instruction
+    < SEMICOLON : ";" > // DElimiteur explicite pour chaque instruction
 }
 
 MORE : {
@@ -54,7 +54,7 @@ MORE : {
 void programme() : {} 
 {
     {
-        System.out.println("-> Entrée dans programme");
+        System.out.println("-> Entree dans programme");
     }
     <DEBUT> instructions() <FIN>
     {
@@ -65,7 +65,7 @@ void programme() : {}
 void instructions() : {} 
 {
     {
-        System.out.println("-> Entrée dans instructions");
+        System.out.println("-> Entree dans instructions");
     }
     (instruction() ";")*
     {
@@ -76,7 +76,7 @@ void instructions() : {}
 void instruction() : {} 
 {
     {
-        System.out.println("-> Entrée dans instruction");
+        System.out.println("-> Entree dans instruction");
     }
     afficherInt()
     | afficherString()
@@ -95,7 +95,7 @@ void instruction() : {}
 void declarationVariable() : {} 
 {
     {
-        System.out.println("-> Entrée dans declarationVariable");
+        System.out.println("-> Entree dans declarationVariable");
     }
     <ENTIER> <IDENTIFIANT>
     {
@@ -109,7 +109,7 @@ void declarationVariable() : {}
 void affectation() : { String varName; int value; } 
 {
     {
-        System.out.println("-> Entrée dans affectation");
+        System.out.println("-> Entree dans affectation");
     }
     <IDENTIFIANT> { varName = token.image; } "<-" value = expression()
     {
@@ -124,9 +124,9 @@ void affectation() : { String varName; int value; }
 void afficherInt() : { int value; } 
 {
     {
-        System.out.println("-> Entrée dans afficherInt");
+        System.out.println("-> Entree dans afficherInt");
     }
-    <AFFICHERINT> "(" value = expression() ")" 
+    <AFFICHERINT> "(" value = expression() ")"
     {
         System.out.println("Afficher (Int) : " + value);
     }
@@ -138,7 +138,7 @@ void afficherInt() : { int value; }
 void afficherString() : {} 
 {
     {
-        System.out.println("-> Entrée dans afficherString");
+        System.out.println("-> Entree dans afficherString");
     }
     <AFFICHERSTRING> "(" <STRING> ")"
     {
@@ -152,12 +152,12 @@ void afficherString() : {}
 void lireInt() : {}
 {
     {
-        System.out.println("-> Entrée dans lireInt");
+        System.out.println("-> Entree dans lireInt");
     }
     <LIREINT> "(" <IDENTIFIANT> ")"
     {
         if (!symbolTable.containsKey(token.image)) {
-            throw new Error("Variable non déclarée : " + token.image);
+            throw new Error("Variable non dEclarEe : " + token.image);
         }
         symbolTable.put(token.image, 42);
     }
@@ -169,12 +169,12 @@ void lireInt() : {}
 void lireString() : {}
 {
     {
-        System.out.println("-> Entrée dans lireString");
+        System.out.println("-> Entree dans lireString");
     }
     <LIRESTRING> "(" <IDENTIFIANT> ")"
     {
         if (!symbolTableString.containsKey(token.image)) {
-            throw new Error("Variable non déclarée : " + token.image);
+            throw new Error("Variable non dEclarEe : " + token.image);
         }
         symbolTableString.put(token.image, "exemple");
     }
@@ -186,7 +186,7 @@ void lireString() : {}
 void condition() : {} 
 {
     {
-        System.out.println("-> Entrée dans condition");
+        System.out.println("-> Entree dans condition");
     }
     <SI> expression() <ALORS> instructions() [<SINON> instructions()] <FINSI>
     {
@@ -197,7 +197,7 @@ void condition() : {}
 void boucleTantQue() : {} 
 {
     {
-        System.out.println("-> Entrée dans boucleTantQue");
+        System.out.println("-> Entree dans boucleTantQue");
     }
     <TANTQUE> expression() <FAIRE> instructions() <FINTANTQUE>
     {
@@ -208,7 +208,7 @@ void boucleTantQue() : {}
 void bouclePour() : {} 
 {
     {
-        System.out.println("-> Entrée dans bouclePour");
+        System.out.println("-> Entree dans bouclePour");
     }
     <POUR> <IDENTIFIANT> <DE> expression() <A> expression() <FAIRE> instructions() <FINPOUR>
     {
@@ -219,7 +219,7 @@ void bouclePour() : {}
 int expression() : { int result; } 
 {
     {
-        System.out.println("-> Entrée dans expression");
+        System.out.println("-> Entree dans expression");
     }
     result = simpleExpression()
     {
@@ -230,17 +230,17 @@ int expression() : { int result; }
     }
 }
 
-int simpleExpression() : { int result = 0; } 
+int simpleExpression() : { int result = 0; }
 {
     {
-        System.out.println("-> Entrée dans simpleExpression");
+        System.out.println("-> Entree dans simpleExpression");
     }
     <NUMBER> { result = Integer.parseInt(token.image); return result; }
-    | <IDENTIFIANT> { 
+    | <IDENTIFIANT> {
         if (symbolTable.containsKey(token.image)) {
             result = symbolTable.get(token.image);
         } else {
-            throw new Error("Variable non déclarée : " + token.image);
+            throw new Error("Variable non dEclarEe : " + token.image);
         }
         return result;
     }
