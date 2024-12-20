@@ -1,0 +1,7 @@
+début
+entier x;
+x <- 5;
+si x == 5 alors
+    afficherInt(x);
+finSi;
+fin
