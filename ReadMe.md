@@ -25,12 +25,19 @@ Le langage supporte les éléments suivants :
 ## 🏗️ Structure du projet
 .
 ├── src/                     # Code source principal
+
 │   ├── Enigme.jj            # Fichier de grammaire JavaCC
+
 │   ├── Parser.java          # Fichiers générés après compilation JavaCC
+
 │   ├── Interpreter.java     # Module d'exécution du langage
+
 │   ├── basic.enigme         # Exemple de programme écrit en langage
+
 │   └── ...                  # Autres fichiers générer nécessaires au projet
+
 ├── docs/                    # Documentation technique
+
 └── README.md                # Fichier de présentation du projet
 
 ## ⚙️ Installation et utilisation
