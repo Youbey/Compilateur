@@ -65,22 +65,22 @@ java Enigme basic.enigme
 
 Ce projet a été réalisé par Youbey et Mehdi, qui ont travaillé ensemble sur toutes les étapes :
 
-    Conception et définition de la grammaire du langage
+    - Conception et définition de la grammaire du langage
 
-    Développement du parser et de l’analyse syntaxique
+    - Développement du parser et de l’analyse syntaxique
 
-    Implémentation de l’interpréteur et de l’exécution des instructions
+    - Implémentation de l’interpréteur et de l’exécution des instructions
 
-    Tests et validation du fonctionnement du langage
+    - Tests et validation du fonctionnement du langage
 
 Ils ont collaboré étroitement pour structurer le projet et garantir son bon fonctionnement.
 
 🔧 Améliorations possibles
 
-    Ajout du support des chaînes de caractères (String).
+    - Ajout du support des chaînes de caractères (String).
 
-    Optimisation des boucles et des conditions pour améliorer les performances.
+    - Optimisation des boucles et des conditions pour améliorer les performances.
 
-    Extension du langage avec de nouvelles fonctions et types de données.
+    - Extension du langage avec de nouvelles fonctions et types de données.
 
-    Développement d’une interface graphique pour tester facilement des scripts.
+    - Développement d’une interface graphique pour tester facilement des scripts.
